@@ -3,12 +3,13 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 // Define the shape of the authentication context
 interface AuthContextType {
   isAuthenticated: boolean;
+  setIsAuthenticated: (value: boolean) => void;
 }
 
 // Create the context with an initial default value
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: true,
-
+  setIsAuthenticated: () => {},
 });
 
 // Define the AuthProvider's props
@@ -22,7 +23,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,33 +1,45 @@
-import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect } from 'react';
 import { login as loginAPI } from '../api/authAPI';
+import Auth from '../utils/auth';
+import { UserLogin } from '../interfaces/UserLoginInterface';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
-  console.log('sdf',import.meta.env.VITE_API_BASE_URL);
-  const { isAuthenticated } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userLogin, setUserLogin] = useState<UserLogin>({} as UserLogin);
   const [errorMessage, setErrorMessage] = useState('');
+  const { setIsAuthenticated } = useAuth();
+
+  useEffect(() => {
+    // Check if user is already logged in
+    if (!Auth.loggedIn()) {
+      setIsAuthenticated(false);
+    }else{
+      setIsAuthenticated(true);
+    }
+
+  }, []);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    setUserLogin({ ...userLogin, email: e.target.value });
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+    setUserLogin({ ...userLogin, password: e.target.value });
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!userLogin.email || !userLogin.password) {
       setErrorMessage('Please enter both email and password.');
     } else {
       // Add your login logic here
-      console.log('Logging in with:', { email, password });
-      const loginData = { email, password };
+      console.log('Logging in with:', { ...userLogin });
+      const loginData = { ...userLogin };
       try {
         const response = await loginAPI(loginData);
         console.log('Response from login:', response);
+        Auth.login(response.token);
+        setIsAuthenticated(true);
       } catch (error) {
         console.error('Error from login:', error);
         setErrorMessage('Failed to log in. Please check your credentials.');
@@ -51,7 +63,7 @@ const LoginPage = () => {
             <input
               type="email"
               id="email"
-              value={email}
+              value={userLogin.email}
               onChange={handleEmailChange}
               placeholder="Enter your email"
               style={styles.input}
@@ -64,7 +76,7 @@ const LoginPage = () => {
             <input
               type="password"
               id="password"
-              value={password}
+              value={userLogin.password}
               onChange={handlePasswordChange}
               placeholder="Enter your password"
               style={styles.input}
