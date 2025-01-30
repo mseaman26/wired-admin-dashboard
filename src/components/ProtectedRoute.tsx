@@ -8,7 +8,6 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children, redirectTo = '/login' }: ProtectedRouteProps) => {
   const { isAuthenticated } = useAuth();
-  console.log('is authenticated',isAuthenticated);
 
   if (!isAuthenticated) {
     return <Navigate to={redirectTo} />;

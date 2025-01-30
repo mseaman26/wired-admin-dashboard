@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import Auth from '../utils/auth';
 
 // Define the shape of the authentication context
 interface AuthContextType {
@@ -8,7 +9,7 @@ interface AuthContextType {
 
 // Create the context with an initial default value
 const AuthContext = createContext<AuthContextType>({
-  isAuthenticated: true,
+  isAuthenticated: false,
   setIsAuthenticated: () => {},
 });
 
@@ -20,7 +21,15 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-
+    useEffect(() => {
+      // Check if user is already logged in
+      if (!Auth.loggedIn()) {
+        setIsAuthenticated(false);
+      }else{
+        setIsAuthenticated(true);
+      }
+  
+    }, []);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>

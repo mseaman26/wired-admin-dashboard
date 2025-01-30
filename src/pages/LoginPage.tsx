@@ -5,19 +5,11 @@ import { UserLogin } from '../interfaces/UserLoginInterface';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
-  const [userLogin, setUserLogin] = useState<UserLogin>({} as UserLogin);
+  const [userLogin, setUserLogin] = useState<UserLogin>({email: '', password: ''});
   const [errorMessage, setErrorMessage] = useState('');
   const { setIsAuthenticated } = useAuth();
 
-  useEffect(() => {
-    // Check if user is already logged in
-    if (!Auth.loggedIn()) {
-      setIsAuthenticated(false);
-    }else{
-      setIsAuthenticated(true);
-    }
 
-  }, []);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserLogin({ ...userLogin, email: e.target.value });
@@ -32,20 +24,19 @@ const LoginPage = () => {
     if (!userLogin.email || !userLogin.password) {
       setErrorMessage('Please enter both email and password.');
     } else {
-      // Add your login logic here
-      console.log('Logging in with:', { ...userLogin });
       const loginData = { ...userLogin };
       try {
         const response = await loginAPI(loginData);
-        console.log('Response from login:', response);
         Auth.login(response.token);
         setIsAuthenticated(true);
       } catch (error) {
-        console.error('Error from login:', error);
-        setErrorMessage('Failed to log in. Please check your credentials.');
+        if (error instanceof Error) {
+          setErrorMessage(error.message);
+        } else {
+          setErrorMessage('An error occurred. Please try again.');
+        }
       }
-      // Reset error if successful
-      setErrorMessage('');
+
     }
   };
 
@@ -89,10 +80,6 @@ const LoginPage = () => {
           <button type="submit" style={styles.submitButton}>Log In</button>
         </form>
       </div>
-
-      <footer style={styles.footer}>
-        <p>&copy; 2025 Your Company. All rights reserved.</p>
-      </footer>
     </div>
   );
 };

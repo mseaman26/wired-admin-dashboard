@@ -2,7 +2,6 @@ import { UserLogin } from "../interfaces/UserLoginInterface";
 
 const login = async (userInfo: UserLogin) => {
   try {
-    console.log('User info: ', userInfo);
     const response = await fetch(`/auth/login`, {
       method: 'POST',
       headers: {
@@ -14,13 +13,13 @@ const login = async (userInfo: UserLogin) => {
     const data = await response.json();
 
     if(!response.ok) {
-      throw new Error('User information not retrieved, check network tab!');
+      throw new Error(data.message || 'Failed to log in');
     }
 
     return data;
   } catch(err) {
     console.log('Error from user login: ', err);
-    return Promise.reject('Could not fetch user info');
+    throw err;
   }
 }
 
