@@ -9,9 +9,10 @@ const login = async (userInfo: UserLogin) => {
       }, 
       body: JSON.stringify(userInfo)
     });
-
+    if(response.status >= 500) {
+      throw new Error('Unable to connect to server');
+    }
     const data = await response.json();
-
     if(!response.ok) {
       throw new Error(data.message || 'Failed to log in');
     }
