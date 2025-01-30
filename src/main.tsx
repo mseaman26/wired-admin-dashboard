@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import  { AuthProvider, useAuth } from './context/AuthContext.tsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import  { AuthProvider } from './context/AuthContext.tsx';
 import App from './App.tsx';
 import ErrorPage from './pages/ErrorPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';

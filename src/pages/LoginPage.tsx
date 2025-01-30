@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { login as loginAPI } from '../api/authAPI';
 import Auth from '../utils/auth';
 import { UserLogin } from '../interfaces/UserLoginInterface';
