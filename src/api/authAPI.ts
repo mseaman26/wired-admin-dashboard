@@ -1,12 +1,11 @@
 import { UserLogin } from "../interfaces/UserLoginInterface";
 
 //bring in env variable for api url using vite specific import.meta
-const apiUrl = import.meta.env.VITE_API_BASE_URL || '';
 
 
 const login = async (userInfo: UserLogin) => {
   try {
-    const response = await fetch(`${apiUrl}/auth/login`, {
+    const response = await fetch(`/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

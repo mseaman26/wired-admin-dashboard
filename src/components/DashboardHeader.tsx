@@ -11,6 +11,7 @@ export default function DashboardHeader() {
         setIsAuthenticated(false);
     }
 
+
     return (
         <div style={styles.container}>
             <h1>Admin Dashboard</h1>
@@ -26,6 +27,7 @@ const styles: {[key: string]: React.CSSProperties} = {
     color: '#fff',
     padding: '20px',
     textAlign: 'center',
+    width: '100%',
   },
   logoutButton: {
     backgroundColor: "#fff",
