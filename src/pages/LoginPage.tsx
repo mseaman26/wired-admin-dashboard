@@ -31,7 +31,12 @@ const LoginPage = () => {
         setIsAuthenticated(true);
       } catch (error) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          if(error.message === 'Failed to fetch') {
+          setErrorMessage('there was a problem with the server. Please try again.');
+          }
+          else {
+            setErrorMessage(error.message);
+          }
         } else {
           setErrorMessage('An error occurred. Please try again.');
         }
