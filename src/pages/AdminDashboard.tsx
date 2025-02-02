@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DashboardHeader from '../components/DashboardHeader';
 import DownloadTable from '../components/DownloadTable';
 import { fetchDownloads } from '../api/downloadsApi';
