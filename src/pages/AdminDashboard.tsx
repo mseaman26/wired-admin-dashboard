@@ -4,13 +4,18 @@ import DashboardHeader from '../components/DashboardHeader';
 import DownloadTable from '../components/DownloadTable';
 import { fetchDownloads } from '../api/downloadsApi';
 import { DownloadInterface } from '../interfaces/DownloadInterface';
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
 const AdminDashboard = () => {
 
   const [downloads, setDownloads] = useState<DownloadInterface[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasQueriedDownloads, setHasQueriedDownloads] = useState<boolean>(false);
 
   const handleViewAllDownloads = async () => {
+    setHasQueriedDownloads(true);
+    setLoading(true);
     setErrorMessage('');
     try {
       const data = await fetchDownloads();
@@ -21,6 +26,8 @@ const AdminDashboard = () => {
       } else {
         setErrorMessage('An unknown error occurred. Please try again later.');
       }
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -30,7 +37,16 @@ const AdminDashboard = () => {
       <DashboardHeader/>
       <button style={styles.button} onClick={handleViewAllDownloads}>View All Downloads</button>
       {errorMessage && <div style={styles.error}>{errorMessage}</div>}
-      {downloads.length > 0 && <DownloadTable data={downloads} />}
+      {loading  ?  
+        <LoadingSpinner />
+        :
+        hasQueriedDownloads ?
+          downloads.length > 0 ?
+            <DownloadTable data={downloads} />
+            :
+            <div style={styles.error}>No downloads found.</div>
+          :<></>
+        }
     </div>
   );
 };
