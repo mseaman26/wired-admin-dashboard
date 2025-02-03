@@ -10,7 +10,6 @@ export const fetchDownloads = async (): Promise<DownloadInterface[]> => {
         const response = await fetch(`/downloads`, {
             headers: {
                 Authorization: `Bearer ${Auth.getToken()}`,
-                contentype: 'application/json'
             }
         });
         const data = await response.json();
@@ -19,7 +18,7 @@ export const fetchDownloads = async (): Promise<DownloadInterface[]> => {
         }
         return data;
     } catch(err) {
-        console.log('Error from getDownloads: ', err);
+        console.error('Error from getDownloads: ', err);
         throw err;
     }
 }

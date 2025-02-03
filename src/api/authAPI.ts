@@ -20,7 +20,7 @@ const login = async (userInfo: UserLogin) => {
 
     return data;
   } catch(err) {
-    console.log('Error from user login: ', err);
+    console.error('Error from user login: ', err);
     throw err;
   }
 }

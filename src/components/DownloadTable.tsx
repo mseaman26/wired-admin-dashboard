@@ -1,5 +1,6 @@
 import React from 'react';
 import { DownloadInterface } from '../interfaces/DownloadInterface';
+import { globalStyles } from '../globalStyles';
 
 const DataTable = ({ data }: { data: DownloadInterface[] }) => {
   return (
@@ -17,7 +18,7 @@ const DataTable = ({ data }: { data: DownloadInterface[] }) => {
             <tbody>
             {data.map((download, index) => (
                 <tr key={`download_${download.id}`} style={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
-                    <td style={styles.td}>{new Date(download.download_date).toLocaleDateString()}</td>
+                    <td style={styles.td}>{new Date(download.download_date).toLocaleString()}</td>
                     <td style={styles.td}>{download.latitude}</td>
                     <td style={styles.td}>{download.longitude}</td>
                     <td style={styles.td}>{download.module?.name}</td>
@@ -42,11 +43,11 @@ const styles: { [key: string]: React.CSSProperties } = {
   table: {
     width: '100%',
     borderCollapse: 'collapse',
-    backgroundColor: '#fff',
+    backgroundColor: globalStyles.colors.whiteTheme,
   },
   th: {
-    backgroundColor: '#5a382d', // Dark brown header
-    color: '#fff',
+    backgroundColor: globalStyles.colors.darkButtonTheme,
+    color: globalStyles.colors.whiteTheme,
     padding: '12px',
     textAlign: 'left',
     fontWeight: 'bold',
@@ -54,13 +55,13 @@ const styles: { [key: string]: React.CSSProperties } = {
   td: {
     padding: '12px',
     borderBottom: '1px solid #ddd',
-    color: '#333',
+    color: globalStyles.colors.darkText,
   },
   evenRow: {
-    backgroundColor: '#f9f9f9', // Light gray for readability
+    backgroundColor: globalStyles.colors.whiteTheme, 
   },
   oddRow: {
-    backgroundColor: '#e0c6a8', // Matches your dashboard background
+    backgroundColor: globalStyles.colors.pageBackgroundMain, // Matches your dashboard background
   },
 };
 

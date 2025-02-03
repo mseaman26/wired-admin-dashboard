@@ -5,6 +5,7 @@ import DownloadTable from '../components/DownloadTable';
 import { fetchDownloads } from '../api/downloadsApi';
 import { DownloadInterface } from '../interfaces/DownloadInterface';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
+import { globalStyles } from '../globalStyles';
 
 const AdminDashboard = () => {
 
@@ -54,17 +55,17 @@ const AdminDashboard = () => {
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'rgba(224, 198, 168, 1)', // Updated background color
+    backgroundColor: globalStyles.colors.pageBackgroundMain, 
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    color: '#333', // Set default text color to dark gray for readability
+    color: globalStyles.colors.darkText, 
     alignItems: 'center',
 
   },
   button: {
-    backgroundColor: '#5a382d', // Dark brown for contrast
-    color: '#fff',
+    backgroundColor: globalStyles.colors.darkButtonTheme, 
+    color: globalStyles.colors.whiteTheme,
     fontSize: '16px',
     padding: '12px 24px',
     border: 'none',
@@ -77,8 +78,8 @@ const styles: { [key: string]: React.CSSProperties } = {
     textAlign: 'center',
   },
   error: {
-    backgroundColor: '#D9534F', // Bootstrap danger red
-    color: '#fff',
+    backgroundColor: globalStyles.colors.error,
+    color: globalStyles.colors.whiteTheme,
     padding: '10px',
     borderRadius: '5px',
     marginTop: '15px',
