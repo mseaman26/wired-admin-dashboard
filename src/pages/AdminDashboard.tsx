@@ -3,13 +3,13 @@ import { useState } from 'react';
 import DashboardHeader from '../components/DashboardHeader';
 import DownloadTable from '../components/DownloadTable';
 import { fetchDownloads } from '../api/downloadsApi';
-import { DownloadInterface } from '../interfaces/DownloadInterface';
+import { ModuleDownloadInterface } from '../interfaces/DownloadInterface';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import { globalStyles } from '../globalStyles';
 
 const AdminDashboard = () => {
 
-  const [downloads, setDownloads] = useState<DownloadInterface[]>([]);
+  const [downloads, setDownloads] = useState<ModuleDownloadInterface[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [hasQueriedDownloads, setHasQueriedDownloads] = useState<boolean>(false);

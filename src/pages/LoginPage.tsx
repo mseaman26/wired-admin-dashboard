@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { login as loginAPI } from '../api/authAPI';
 import Auth from '../utils/auth';
-import { UserLogin } from '../interfaces/UserLoginInterface';
+import { UserLoginInterface } from '../interfaces/UserLoginInterface';
 import { useAuth } from '../context/AuthContext';
 import { globalStyles } from '../globalStyles';
 
 const LoginPage = () => {
-  const [userLogin, setUserLogin] = useState<UserLogin>({email: '', password: ''});
+  const [userLogin, setUserLogin] = useState<UserLoginInterface>({email: '', password: ''});
   const [errorMessage, setErrorMessage] = useState('');
   const { setIsAuthenticated } = useAuth();
 

@@ -1,9 +1,9 @@
-import { UserLogin } from "../interfaces/UserLoginInterface";
+import { UserLoginInterface } from "../interfaces/UserLoginInterface";
 
 //bring in env variable for api url using vite specific import.meta
 
 
-const login = async (userInfo: UserLogin) => {
+const login = async (userInfo: UserLoginInterface) => {
   try {
     const response = await fetch(`/auth/login`, {
       method: 'POST',
@@ -12,7 +12,11 @@ const login = async (userInfo: UserLogin) => {
       }, 
       body: JSON.stringify(userInfo)
     });
-
+    //check if response is json, if not, throw a user-readable error
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Failed to fetch downloads");
+    }
     const data = await response.json();
     if(!response.ok) {
       throw new Error(data.message || 'Failed to log in');

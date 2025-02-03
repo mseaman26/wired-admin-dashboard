@@ -1,8 +1,9 @@
 import React from 'react';
-import { DownloadInterface } from '../interfaces/DownloadInterface';
+import { ModuleDownloadInterface } from '../interfaces/DownloadInterface';
 import { globalStyles } from '../globalStyles';
 
-const DataTable = ({ data }: { data: DownloadInterface[] }) => {
+const DataTable = ({ data }: { data: ModuleDownloadInterface[] }) => {
+
   return (
     <div style={styles.tableContainer}>
         <table style={styles.table}>

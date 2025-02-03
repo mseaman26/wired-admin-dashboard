@@ -5,7 +5,7 @@ interface PackageInterface {
     name: string;
 }
 
-export interface DownloadInterface {
+export interface ModuleDownloadInterface {
     id: number;
     download_date: string; 
     latitude: number; 
