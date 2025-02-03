@@ -14,8 +14,8 @@ const login = async (userInfo: UserLoginInterface) => {
     });
     //check if response is json, if not, throw a user-readable error
     const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Failed to fetch downloads");
+    if (!contentType || !contentType.includes("application/json") || response.status >= 500) {
+        throw new Error("server error");
     }
     const data = await response.json();
     if(!response.ok) {

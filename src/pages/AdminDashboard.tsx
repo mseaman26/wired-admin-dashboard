@@ -3,7 +3,7 @@ import { useState } from 'react';
 import DashboardHeader from '../components/DashboardHeader';
 import DownloadTable from '../components/DownloadTable';
 import { fetchDownloads } from '../api/downloadsApi';
-import { ModuleDownloadInterface } from '../interfaces/DownloadInterface';
+import { ModuleDownloadInterface } from '../interfaces/ModuleDownloadInterface';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import { globalStyles } from '../globalStyles';
 

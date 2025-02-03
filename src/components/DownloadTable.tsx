@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModuleDownloadInterface } from '../interfaces/DownloadInterface';
+import { ModuleDownloadInterface } from '../interfaces/ModuleDownloadInterface';
 import { globalStyles } from '../globalStyles';
 
 const DataTable = ({ data }: { data: ModuleDownloadInterface[] }) => {
@@ -19,7 +19,7 @@ const DataTable = ({ data }: { data: ModuleDownloadInterface[] }) => {
             <tbody>
             {data.map((download, index) => (
                 <tr key={`download_${download.id}`} style={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
-                    <td style={styles.td}>{new Date(download.download_date).toLocaleString()}</td>
+                    <td style={styles.td}>{new Date(download.download_date * 1000).toLocaleString()}</td>
                     <td style={styles.td}>{download.latitude}</td>
                     <td style={styles.td}>{download.longitude}</td>
                     <td style={styles.td}>{download.module?.name}</td>

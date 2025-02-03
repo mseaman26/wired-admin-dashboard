@@ -7,7 +7,7 @@ interface PackageInterface {
 
 export interface ModuleDownloadInterface {
     id: number;
-    download_date: string; 
+    download_date: number; 
     latitude: number; 
     longitude: number; 
     module?: ModuleInterface, 
