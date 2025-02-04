@@ -5,9 +5,13 @@ import Auth from "../utils/auth";
 
 
 //fetch data from /downloads endpoint
-export const fetchDownloads = async (): Promise<ModuleDownloadInterface[]> => {
+export const fetchDownloads = async (queries?: string): Promise<ModuleDownloadInterface[]> => {
     try {
-        const response = await fetch(`/api/downloads`, {
+        const fetchURL = queries ? `/api/downloads?${queries}` : '/api/downloads';
+        //TODO: Remove this console.log
+        console.log('fetchURL from getDownloads: ', fetchURL);
+        const response = await fetch(fetchURL, {
+            
             headers: {
                 Authorization: `Bearer ${Auth.getToken()}`,
             }
