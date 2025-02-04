@@ -1,6 +1,6 @@
 import auth from "../utils/auth";
 import { useAuth } from "../context/AuthContext";
-
+import { globalStyles } from "../globalStyles";
 
 
 export default function DashboardHeader() {
@@ -10,6 +10,7 @@ export default function DashboardHeader() {
         auth.logout();
         setIsAuthenticated(false);
     }
+
 
     return (
         <div style={styles.container}>
@@ -22,14 +23,15 @@ export default function DashboardHeader() {
 
 const styles: {[key: string]: React.CSSProperties} = {
   container: {
-    backgroundColor: '#508432', // greenish
-    color: '#fff',
+    backgroundColor: globalStyles.colors.headerColor, 
+    color: globalStyles.colors.whiteTheme,
     padding: '20px',
     textAlign: 'center',
+    width: '100%',
   },
   logoutButton: {
-    backgroundColor: "#fff",
-    color: "#508432", 
+    backgroundColor: globalStyles.colors.whiteTheme,
+    color: globalStyles.colors.headerColor, 
     border: "none",
     padding: "10px 15px",
     cursor: "pointer",

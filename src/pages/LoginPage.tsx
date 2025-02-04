@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { login as loginAPI } from '../api/authAPI';
 import Auth from '../utils/auth';
-import { UserLogin } from '../interfaces/UserLoginInterface';
+import { UserLoginInterface } from '../interfaces/UserLoginInterface';
 import { useAuth } from '../context/AuthContext';
+import { globalStyles } from '../globalStyles';
 
 const LoginPage = () => {
-  const [userLogin, setUserLogin] = useState<UserLogin>({email: '', password: ''});
+  const [userLogin, setUserLogin] = useState<UserLoginInterface>({email: '', password: ''});
   const [errorMessage, setErrorMessage] = useState('');
   const { setIsAuthenticated } = useAuth();
 
@@ -92,15 +93,15 @@ const LoginPage = () => {
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'rgba(224, 198, 168, 1)',
+    backgroundColor: globalStyles.colors.pageBackgroundMain,
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    color: '#333',
+    color: globalStyles.colors.darkText,
   },
   header: {
-    backgroundColor: '#508432',
-    color: '#fff',
+    backgroundColor: globalStyles.colors.headerColor,
+    color: globalStyles.colors.whiteTheme,
     padding: '20px',
     textAlign: 'center',
   },
@@ -111,7 +112,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: 'column',
     justifyContent: 'center',
     gap: '20px',
-    backgroundColor: '#fff',
+    backgroundColor: globalStyles.colors.whiteTheme,
     borderRadius: '8px',
     maxWidth: '500px',
     margin: 'auto',
@@ -129,31 +130,31 @@ const styles: { [key: string]: React.CSSProperties } = {
   label: {
     fontSize: '16px',
     fontWeight: 'bold',
-    color: '#508432',
+    color: globalStyles.colors.headerColor,
   },
   input: {
     padding: '12px',
     fontSize: '16px',
     border: '1px solid #ccc',
     borderRadius: '4px',
-    backgroundColor: '#f9f9f9',
+    backgroundColor: globalStyles.colors.lightGray,
   },
   submitButton: {
     padding: '12px',
     fontSize: '16px',
-    color: '#fff',
-    backgroundColor: '#508432',
+    color: globalStyles.colors.whiteTheme,
+    backgroundColor: globalStyles.colors.headerColor,
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
   },
   error: {
-    color: '#f00',
+    color: globalStyles.colors.error,
     fontSize: '14px',
   },
   footer: {
     backgroundColor: '#508432',
-    color: '#fff',
+    color: globalStyles.colors.whiteTheme,
     padding: '10px',
     textAlign: 'center',
     marginTop: 'auto',

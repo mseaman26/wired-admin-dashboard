@@ -1,3 +1,4 @@
+import { globalStyles } from "../globalStyles";
 
 export default function Footer() {
     return (
@@ -9,12 +10,12 @@ export default function Footer() {
 
 const styles: { [key: string]: React.CSSProperties } = {
     container: {
-        backgroundColor: '#508432',
-        color: '#fff',
+        backgroundColor: globalStyles.colors.headerColor,
+        color: globalStyles.colors.whiteTheme,
         padding: '10px',
         textAlign: 'center',
         marginTop: 'auto',
-        borderTop: '3px solid #fff',
+        borderTop: `3px solid ${globalStyles.colors.whiteTheme}`,
         fontFamily: 'Arial, sans-serif',
       },
 }
