@@ -25,7 +25,7 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
     endDate: '',
   });
 
-  const handleApply = () => {
+  const handleApply = (): void => {
     const params = new URLSearchParams();
     if (formData.searchBy && formData.searchQuery){
       params.append(formData.searchBy, formData.searchQuery);
@@ -42,6 +42,13 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
     }
     if (formData.startDate) params.append('start_date', formData.startDate);
     if (formData.endDate) params.append('end_date', formData.endDate);
+    if (formData.searchBy){
+      if(formData.searchBy === 'module'){
+        params.append('module_name', formData.searchQuery);
+      }else if(formData.searchBy === 'package'){
+        params.append('package_name', formData.searchQuery);
+      }
+    }
 
     setQueryString(params.toString());
     onClose(); // Close the popover after applying the filters
