@@ -8,8 +8,7 @@ import Auth from "../utils/auth";
 export const fetchDownloads = async (queries?: string): Promise<ModuleDownloadInterface[]> => {
     try {
         const fetchURL = queries ? `/api/downloads?${queries}` : '/api/downloads';
-        //TODO: Remove this console.log
-        console.log('fetchURL from getDownloads: ', fetchURL);
+
         const response = await fetch(fetchURL, {
             
             headers: {
@@ -25,7 +24,6 @@ export const fetchDownloads = async (queries?: string): Promise<ModuleDownloadIn
         if(!response.ok) {
             throw new Error(data.message || 'Failed to fetch downloads');
         }
-        console.log('data from getDownloads: ', data);
         return data;
     } catch(err) {
         console.error('Error from getDownloads: ', err);

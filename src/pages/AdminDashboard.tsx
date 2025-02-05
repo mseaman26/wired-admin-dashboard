@@ -36,11 +36,6 @@ const AdminDashboard = () => {
   }
 
 
-  //TODO: Remove this useEffect
-  useEffect(() => {
-    console.log('queryString', queryString);
-  }, [queryString]);
-
   useEffect(() => {
     handleViewAllDownloads();
   }, [queryString]);
@@ -85,6 +80,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: 'column',
     color: globalStyles.colors.darkText, 
     alignItems: 'center',
+    overflow: 'hidden',
   },
   buttonContainer: {
     display: 'flex',

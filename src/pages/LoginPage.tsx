@@ -98,6 +98,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     display: 'flex',
     flexDirection: 'column',
     color: globalStyles.colors.darkText,
+    overflow: 'auto',
   },
   header: {
     backgroundColor: globalStyles.colors.headerColor,
@@ -116,6 +117,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     borderRadius: '8px',
     maxWidth: '500px',
     margin: 'auto',
+
   },
   form: {
     display: 'flex',

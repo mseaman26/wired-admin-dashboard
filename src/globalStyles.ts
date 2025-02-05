@@ -9,6 +9,7 @@ export const globalStyles = {
         pageBackgroundMain: '#e0c6a8',
         error: '#D9534F',
         lightGray: '#f9f9f9',
+        whiteOverlay: 'rgba(255, 255, 255, 0.4)'
     },
 
 }
