@@ -5,7 +5,7 @@ import LocationInputs from './LocationInputs';
 
 interface FilterPopoverProps {
   setQueryString: (queryString: string) => void,
-  onClose: () => void,
+  onClose: (formData?: FilterFormInterface) => void,
 }
 
 const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) => 
@@ -31,7 +31,12 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
   useEffect(() => {
     const savedFormData = localStorage.getItem('formData');
     if (savedFormData) {
-      setFormData(JSON.parse(savedFormData));
+      const parsedFormData = JSON.parse(savedFormData);
+      setFormData(parsedFormData);
+      if(parsedFormData.latitude || parsedFormData.longitude || parsedFormData.distance){
+        setLocationInputsShown(true);
+      }
+
     }
   }, []);
 
@@ -122,7 +127,7 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
   //I add comments like this because i have an extension that highlights certain comments so they can be easily found in the scrollbar
   //RETURN:
   return (
-    <div style={styles.overlay} onClick={onClose}>
+    <div style={styles.overlay} onClick={() =>onClose(formData)}>
       <div style={styles.popover} onClick={(e) => e.stopPropagation()}>
         <h4 style={styles.title}>Filter & Sort</h4>
 
@@ -194,7 +199,7 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
         {error && <p style={styles.error}>{error}</p>}
         <div style={styles.buttonContainer}>
           <button style={styles.applyButton} onClick={handleApply}>Apply</button>
-          <button style={styles.cancelButton} onClick={onClose}>Cancel</button>
+          <button style={styles.cancelButton} onClick={() => onClose(formData)}>Cancel</button>
         </div>
       </div>
     </div>

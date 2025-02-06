@@ -7,6 +7,7 @@ import { ModuleDownloadInterface } from '../interfaces/ModuleDownloadInterface';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import { globalStyles } from '../globalStyles';
 import FilterPopover from '../components/FilterPopover';
+import { FilterFormInterface } from '../interfaces/FilterFormInterface';
 
 const AdminDashboard = () => {
 
@@ -35,6 +36,12 @@ const AdminDashboard = () => {
     }
   }
 
+  const handlePopoverClose = (formData?: FilterFormInterface) => {
+    setFilterPopoverOpen(false);
+    if(formData){
+      localStorage.setItem('formData', JSON.stringify(formData));
+    }
+  }
 
   useEffect(() => {
     handleViewAllDownloads();
@@ -44,7 +51,8 @@ const AdminDashboard = () => {
     <div style={styles.container}>
       <DashboardHeader/>
 
-      {filterPopoverOpen && <FilterPopover setQueryString={setQueryString} onClose={() => setFilterPopoverOpen(false)}/>}
+      {filterPopoverOpen && 
+      <FilterPopover setQueryString={setQueryString} onClose={handlePopoverClose}/>}
 
       <div style={styles.buttonContainer}>
         <button style={styles.button} onClick={handleViewAllDownloads}>View All Downloads</button>
