@@ -2,7 +2,7 @@
 This is an application for accessing and viewing data from the Wired International database. Admin access is required to run this app
 
 ## To Run This App
-- you must have a user account with Wired International and obtain admin access from another admin user
+- You must have a user account with Wired International and obtain admin access from another admin user
 - You can start the client-only app by running: 
 ```bash
 npm run dev
