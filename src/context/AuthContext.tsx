@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }else{
         setIsAuthenticated(true);
       }
-  
     }, []);
 
   return (

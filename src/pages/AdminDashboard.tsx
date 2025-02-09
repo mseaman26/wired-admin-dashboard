@@ -8,6 +8,7 @@ import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import { globalStyles } from '../globalStyles';
 import FilterPopover from '../components/FilterPopover';
 import { FilterFormInterface } from '../interfaces/FilterFormInterface';
+import { buildDownloadsQueryString } from '../utils/helperFunctions';
 
 const AdminDashboard = () => {
 
@@ -42,6 +43,14 @@ const AdminDashboard = () => {
       localStorage.setItem('formData', JSON.stringify(formData));
     }
   }
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem('formData');
+    if (savedFormData) {
+      const parsedFormData = JSON.parse(savedFormData);
+      buildDownloadsQueryString({formData: parsedFormData, setQueryString});
+    }
+  }, [])
 
   useEffect(() => {
     handleViewAllDownloads();

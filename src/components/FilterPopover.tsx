@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { globalStyles } from '../globalStyles';
 import { FilterFormInterface } from '../interfaces/FilterFormInterface';
 import LocationInputs from './LocationInputs';
+import { buildDownloadsQueryString } from '../utils/helperFunctions';
 
 interface FilterPopoverProps {
   setQueryString: (queryString: string) => void,
@@ -22,7 +23,7 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
     distance: '',
   });
 
-  const [loactionInputsShown, setLocationInputsShown] = useState<boolean>(false);
+  const [locationInputShown, setLocationInputsShown] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [latitudeError, setLatitudeError] = useState<string>('');
   const [longitudeError, setLongitudeError] = useState<string>('');
@@ -47,11 +48,11 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
       setError('Please enter a search query');
       return;
     }
-    if (loactionInputsShown && !formData.latitude) {
+    if (locationInputShown && !formData.latitude) {
       setError('Please enter a latitude');
       return;
     }
-    if (loactionInputsShown && !formData.longitude) {
+    if (locationInputShown && !formData.longitude) {
       setError('Please enter a longitude');
       return;
     }
@@ -59,48 +60,11 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
       setError('Please enter valid coordinates');
       return;
     }
-    if (loactionInputsShown && !formData.distance) {
+    if (locationInputShown && !formData.distance) {
       setError('Please enter a distance');
       return;
     }
-    //create query string
-    const params = new URLSearchParams();
-    if (formData.searchBy && formData.searchQuery){
-      params.append(formData.searchBy, formData.searchQuery);
-    }
-    const sortMapping: Record<string, { sort_by: string; sort_dir: 'ASC' | 'DESC' }> = {
-      date_asc: { sort_by: 'date', sort_dir: 'ASC' },
-      date_desc: { sort_by: 'date', sort_dir: 'DESC' },
-      module_asc: { sort_by: 'module', sort_dir: 'ASC' },
-      module_desc: { sort_by: 'module', sort_dir: 'DESC' },
-      package_asc: { sort_by: 'package', sort_dir: 'ASC' },
-      package_desc: { sort_by: 'package', sort_dir: 'DESC' }
-    };
-
-    if (formData.sort in sortMapping) {
-      const { sort_by, sort_dir } = sortMapping[formData.sort as keyof typeof sortMapping];
-      params.append('sort_by', sort_by);
-      params.append('sort_dir', sort_dir);
-    }
-    if (formData.startDate) params.append('start_date', formData.startDate);
-    if (formData.endDate) params.append('end_date', formData.endDate);
-    if (formData.searchBy){
-      //this if/else ensures that only one of the two searchBy options is used
-      if(formData.searchBy === 'module'){
-        params.append('module_name', formData.searchQuery);
-      }else if(formData.searchBy === 'package'){
-        params.append('package_name', formData.searchQuery);
-      }
-    }
-    if (formData.latitude && formData.longitude){
-      params.append('latitude', formData.latitude.toString());
-      params.append('longitude', formData.longitude.toString());
-      if(formData.distance){
-        params.append('distance', formData.distance.toString());
-      }
-    }
-
-    setQueryString(params.toString());
+    buildDownloadsQueryString({formData, setQueryString});
     onClose(); // Close the popover after applying the filters
   };
 
@@ -171,7 +135,7 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
 
                 {/* Latitude & Longitude Inputs (Only show when checkbox is checked) */}
         <LocationInputs 
-          loactionInputsShown={loactionInputsShown} 
+          loactionInputsShown={locationInputShown} 
           setLocationInputsShown={setLocationInputsShown} 
           formData={formData} setFormData={setFormData} 
           latitudeError={latitudeError} 
