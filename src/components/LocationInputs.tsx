@@ -67,7 +67,7 @@ const LocationInputs = ({
         onChange={() => setLocationInputsShown(!loactionInputsShown)}
         style={{ marginRight: "5px" }}
       />
-      <br />
+      <hr style={{border: '1px solid black'}}/>
       {loactionInputsShown && (
         <>
           <label style={globalStyles.label}>Latitude</label>

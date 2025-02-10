@@ -17,13 +17,12 @@ export const globalStyles = {
         color: darkText
     },
     input: {
+        display: 'block',
         padding: '8px',
         marginBottom: '10px',
         border: `1px solid ${darkText}`,
         borderRadius: '5px',
         width: '100%',
-        // boxSizing: 'border-box',
-    
-      },
+    },
 
 }
