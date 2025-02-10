@@ -156,9 +156,7 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
           <option value="date_asc">Date (oldest first)</option>
           <option value="date_desc">Date (most recent first)</option>
           <option value="module_asc">Module Name (A-Z)</option>
-          <option value="module_desc">Module Name (Z-A)</option>
           <option value="package_asc">Package Name (A-Z)</option>
-          <option value="package_desc">Package Name (Z-A)</option>
         </select>
         {error && <p style={styles.error}>{error}</p>}
         <div style={styles.buttonContainer}>
