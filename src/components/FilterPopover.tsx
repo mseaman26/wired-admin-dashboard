@@ -16,8 +16,8 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
     searchQuery: '',
     searchBy: '',
     sort: '',
-    startDate: '',
-    endDate: '',
+    startDate: null,
+    endDate: null,
     latitude: '',
     longitude: '',
     distance: '',
@@ -74,8 +74,8 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
       searchQuery: '',
       searchBy: '',
       sort: '',
-      startDate: '',
-      endDate: '',
+      startDate: null,
+      endDate: null,
       latitude: '',
       longitude: '',
       distance: '',
@@ -120,16 +120,24 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
         <label style={globalStyles.label}>Start Date</label>
         <input 
           type="date" 
-          value={formData.startDate} 
-          onChange={(e) => setFormData({ ...formData, startDate: e.target.value })} 
+          value={formData.startDate ? new Date(formData.startDate * 1000).toISOString().split('T')[0] : ''} 
+          onChange={(e) => setFormData({ 
+            ...formData, 
+            //convert date to unix timestamp
+            startDate: e.target.value ? Math.floor(new Date(e.target.value).getTime() / 1000) : null
+          })} 
           style={globalStyles.input}
         />
 
         <label style={globalStyles.label}>End Date</label>
         <input 
           type="date" 
-          value={formData.endDate} 
-          onChange={(e) => setFormData({ ...formData, endDate: e.target.value })} 
+          //convert unix timestamp to date
+          value={formData.endDate ? new Date(formData.endDate * 1000).toISOString().split('T')[0] : ''} 
+          onChange={(e) => setFormData({ 
+            ...formData, 
+            endDate: e.target.value ? Math.floor(new Date(e.target.value).getTime() / 1000) : null
+          })} 
           style={globalStyles.input}
         />
 
