@@ -5,9 +5,12 @@ import Auth from "../utils/auth";
 
 
 //fetch data from /downloads endpoint
-export const fetchDownloads = async (): Promise<ModuleDownloadInterface[]> => {
+export const fetchDownloads = async (queries?: string): Promise<ModuleDownloadInterface[]> => {
     try {
-        const response = await fetch(`/api/downloads`, {
+        const fetchURL = queries ? `/api/downloads?${queries}` : '/api/downloads';
+
+        const response = await fetch(fetchURL, {
+            
             headers: {
                 Authorization: `Bearer ${Auth.getToken()}`,
             }
@@ -21,7 +24,6 @@ export const fetchDownloads = async (): Promise<ModuleDownloadInterface[]> => {
         if(!response.ok) {
             throw new Error(data.message || 'Failed to fetch downloads');
         }
-        console.log('data from getDownloads: ', data);
         return data;
     } catch(err) {
         console.error('Error from getDownloads: ', err);

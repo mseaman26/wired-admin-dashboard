@@ -1,11 +1,14 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DashboardHeader from '../components/DashboardHeader';
 import DownloadTable from '../components/DownloadTable';
 import { fetchDownloads } from '../api/downloadsApi';
 import { ModuleDownloadInterface } from '../interfaces/ModuleDownloadInterface';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import { globalStyles } from '../globalStyles';
+import FilterPopover from '../components/FilterPopover';
+import { FilterFormInterface } from '../interfaces/FilterFormInterface';
+import { buildDownloadsQueryString } from '../utils/helperFunctions';
 
 const AdminDashboard = () => {
 
@@ -13,13 +16,15 @@ const AdminDashboard = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [hasQueriedDownloads, setHasQueriedDownloads] = useState<boolean>(false);
+  const [filterPopoverOpen, setFilterPopoverOpen] = useState<boolean>(false);
+  const [queryString, setQueryString] = useState<string>('');
 
   const handleViewAllDownloads = async () => {
     setHasQueriedDownloads(true);
     setLoading(true);
     setErrorMessage('');
     try {
-      const data = await fetchDownloads();
+      const data = await fetchDownloads(queryString);
       setDownloads(data);
     } catch (err) {
       if (err instanceof Error) {
@@ -32,11 +37,42 @@ const AdminDashboard = () => {
     }
   }
 
+  const handlePopoverClose = (formData?: FilterFormInterface) => {
+    setFilterPopoverOpen(false);
+    if(formData){
+      localStorage.setItem('formData', JSON.stringify(formData));
+    }
+  }
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem('formData');
+    if (savedFormData) {
+      const parsedFormData = JSON.parse(savedFormData);
+      buildDownloadsQueryString({formData: parsedFormData, setQueryString});
+    }
+  }, [])
+
+  useEffect(() => {
+    handleViewAllDownloads();
+  }, [queryString]);
 
   return (
     <div style={styles.container}>
       <DashboardHeader/>
-      <button style={styles.button} onClick={handleViewAllDownloads}>View All Downloads</button>
+
+      {filterPopoverOpen && 
+      <FilterPopover setQueryString={setQueryString} onClose={handlePopoverClose}/>}
+
+      <div style={styles.buttonContainer}>
+        <button style={styles.button} onClick={handleViewAllDownloads}>View All Downloads</button>
+        <button 
+          style={{ ...styles.button, ...styles.filterButton }} 
+          onClick={() => setFilterPopoverOpen(!filterPopoverOpen)}
+        >
+          Filter/Sort
+        </button>
+      </div>
+
       {errorMessage && <div style={styles.error}>{errorMessage}</div>}
       {loading  ?  
         <LoadingSpinner />
@@ -61,7 +97,13 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: 'column',
     color: globalStyles.colors.darkText, 
     alignItems: 'center',
-
+    overflow: 'hidden',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '10px', // Space between the buttons
+    marginTop: '20px',
   },
   button: {
     backgroundColor: globalStyles.colors.darkButtonTheme, 
@@ -76,6 +118,10 @@ const styles: { [key: string]: React.CSSProperties } = {
     maxWidth: '200px',  // Ensures it doesn't get too wide
     width: '100%', // Allows it to shrink on smaller screens
     textAlign: 'center',
+  },
+  filterButton: {
+    backgroundColor: globalStyles.colors.headerColor, // Different color for Filter/Sort button
+    borderRadius: '8px',
   },
   error: {
     backgroundColor: globalStyles.colors.error,
