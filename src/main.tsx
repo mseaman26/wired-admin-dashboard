@@ -7,6 +7,8 @@ import LoginPage from './pages/LoginPage.tsx';
 import LoginRedirectWrapper from './components/LoginRedirectWrapper.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import AdminDashboard from './pages/AdminDashboard.tsx';
+import ForgotPasswordPage from './pages/ForgotPasswordPage.tsx';
+import PasswordResetPage from './pages/PasswordResetPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,22 @@ const router = createBrowserRouter([
             </LoginRedirectWrapper>
         ),
       },
+      {
+        path: '/forgot-password',
+        element: (
+          <LoginRedirectWrapper>
+            <ForgotPasswordPage />
+          </LoginRedirectWrapper>
+        ),
+      },
+      {
+        path: '/reset-password/:token',
+        element: (
+          <LoginRedirectWrapper>
+            <PasswordResetPage />
+          </LoginRedirectWrapper>
+        ),
+      }
     ],
   },
 ]);
