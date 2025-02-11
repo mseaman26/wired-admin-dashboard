@@ -57,7 +57,7 @@ const AdminDashboard = () => {
   }, [queryString]);
 
   return (
-    <div style={styles.container}>
+    <div style={globalStyles.pageContainer}>
       <DashboardHeader/>
 
       {filterPopoverOpen && 
