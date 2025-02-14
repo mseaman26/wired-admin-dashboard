@@ -3,13 +3,15 @@ import { globalStyles } from '../globalStyles';
 import { FilterFormInterface } from '../interfaces/FilterFormInterface';
 import LocationInputs from './LocationInputs';
 import { buildDownloadsQueryString } from '../utils/helperFunctions';
+import SearchDropdown from './SearchDropdown';
 
 interface FilterPopoverProps {
   setQueryString: (queryString: string) => void,
   onClose: (formData?: FilterFormInterface) => void,
+  moduleAndPackageInfo: {modules: {id: number, name: string}[], packages: {id: number, name: string}[]}
 }
 
-const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) => 
+const FilterPopover = ({ setQueryString, onClose, moduleAndPackageInfo }: FilterPopoverProps) => 
   {
 
   const [formData, setFormData] = useState<FilterFormInterface>({
@@ -85,7 +87,6 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
     setLatitudeError('');
     setLongitudeError('');
     setDistanceError('');
-    localStorage.removeItem('formData');
   }
 
   //I add comments like this because i have an extension that highlights certain comments so they can be easily found in the scrollbar
@@ -93,13 +94,12 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
   return (
     <div style={styles.overlay} onClick={() =>onClose(formData)}>
       <div style={styles.popover} onClick={(e) => e.stopPropagation()}>
-        <h4 style={styles.title}>Filter & Sort</h4>
-
+        <h4 style={styles.title}>Filter & Sort</h4> 
         <label style={globalStyles.label}>Search By: </label>
         
         <select
           value={formData.searchBy}
-          onChange={(e) => setFormData({ ...formData, searchBy: e.target.value })}
+          onChange={(e) => setFormData({ ...formData, searchBy: e.target.value, searchQuery: '' })}
           style={styles.dropdown}
         >
           <option value="">Select Category</option>
@@ -108,13 +108,11 @@ const FilterPopover = ({ setQueryString, onClose }: FilterPopoverProps) =>
         </select>
         <button style={styles.clearAllButton} onClick={clearAll}>Clear All</button>
         
-        <input 
-          disabled={!formData.searchBy}
-          type="text" 
-          value={formData.searchQuery} 
-          placeholder={formData.searchBy ? `Enter ${formData.searchBy} name` : 'Select a category first'}
-          onChange={(e) => setFormData({ ...formData, searchQuery: e.target.value })} 
-          style={globalStyles.input}
+
+        <SearchDropdown 
+          formData={formData} 
+          setFormData={setFormData}
+          moduleAndPackageInfo={moduleAndPackageInfo}
         />
 
         <label style={globalStyles.label}>Start Date</label>

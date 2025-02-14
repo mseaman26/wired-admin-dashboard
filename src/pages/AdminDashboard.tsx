@@ -1,14 +1,15 @@
 
 import { useState, useEffect } from 'react';
 import DashboardHeader from '../components/DashboardHeader';
-import DownloadTable from '../components/DownloadTable';
 import { fetchDownloads } from '../api/downloadsApi';
+import { fetchModuleAndPackageInfo } from '../api/modulesAPI';
 import { ModuleDownloadInterface } from '../interfaces/ModuleDownloadInterface';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import { globalStyles } from '../globalStyles';
 import FilterPopover from '../components/FilterPopover';
-import { FilterFormInterface } from '../interfaces/FilterFormInterface';
 import { buildDownloadsQueryString } from '../utils/helperFunctions';
+import GoogleMapsComponent from '../components/GoogleMap';
+import { IdsAndNamesInterface } from '../interfaces/IdsAndNamesInterface';
 
 const AdminDashboard = () => {
 
@@ -16,8 +17,10 @@ const AdminDashboard = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [hasQueriedDownloads, setHasQueriedDownloads] = useState<boolean>(false);
+  const [hasQueriedModuleAndPackageInfo, setHasQueriedModuleAndPackageInfo] = useState<boolean>(false);
   const [filterPopoverOpen, setFilterPopoverOpen] = useState<boolean>(false);
   const [queryString, setQueryString] = useState<string>('');
+  const [moduleAndPackageInfo, setModuleAndPackageInfo] = useState<IdsAndNamesInterface>({} as IdsAndNamesInterface);
 
   const handleViewAllDownloads = async () => {
     setHasQueriedDownloads(true);
@@ -37,14 +40,26 @@ const AdminDashboard = () => {
     }
   }
 
-  const handlePopoverClose = (formData?: FilterFormInterface) => {
+  const handlePopoverClose = () => {
     setFilterPopoverOpen(false);
-    if(formData){
-      localStorage.setItem('formData', JSON.stringify(formData));
-    }
   }
 
   useEffect(() => {
+    setLoading(true);
+    //getting list of of names and ids for modules and packages for filter dropdowns if not already queried
+    //it would be nice to implement caching for this or some means of not querying this every time the page is loaded
+    if(!hasQueriedModuleAndPackageInfo){
+      fetchModuleAndPackageInfo()
+        .then((data) => {
+          setModuleAndPackageInfo(data);
+          setHasQueriedModuleAndPackageInfo(true);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          setLoading(false);
+        });
+    }
     const savedFormData = localStorage.getItem('formData');
     if (savedFormData) {
       const parsedFormData = JSON.parse(savedFormData);
@@ -61,10 +76,14 @@ const AdminDashboard = () => {
       <DashboardHeader/>
 
       {filterPopoverOpen && 
-      <FilterPopover setQueryString={setQueryString} onClose={handlePopoverClose}/>}
+      <FilterPopover 
+        setQueryString={setQueryString} 
+        onClose={handlePopoverClose} 
+        moduleAndPackageInfo={moduleAndPackageInfo}
+      />}
 
       <div style={styles.buttonContainer}>
-        <button style={styles.button} onClick={handleViewAllDownloads}>View All Downloads</button>
+        {/* <button style={styles.button} onClick={handleViewAllDownloads}>View All Downloads</button> */}
         <button 
           style={{ ...styles.button, ...styles.filterButton }} 
           onClick={() => setFilterPopoverOpen(!filterPopoverOpen)}
@@ -74,16 +93,10 @@ const AdminDashboard = () => {
       </div>
 
       {errorMessage && <div style={styles.error}>{errorMessage}</div>}
-      {loading  ?  
-        <LoadingSpinner />
-        :
-        hasQueriedDownloads ?
-          downloads.length > 0 ?
-            <DownloadTable data={downloads} />
-            :
-            <div style={styles.error}>No downloads found.</div>
-          :<></>
-        }
+      {loading && <LoadingSpinner />}
+      {hasQueriedDownloads && downloads.length === 0 && <div style={{...styles.error, position: 'absolute'}}>No downloads match the provided search criteria.</div>}
+
+      <GoogleMapsComponent downloads={downloads} />
     </div>
   );
 };
@@ -104,6 +117,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     justifyContent: 'center',
     gap: '10px', // Space between the buttons
     marginTop: '20px',
+    position: 'absolute',
+    top: '130px',
+    zIndex: 1,
   },
   button: {
     backgroundColor: globalStyles.colors.darkButtonTheme, 
@@ -118,6 +134,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     maxWidth: '200px',  // Ensures it doesn't get too wide
     width: '100%', // Allows it to shrink on smaller screens
     textAlign: 'center',
+    minHeight: '60px', 
   },
   filterButton: {
     backgroundColor: globalStyles.colors.headerColor, // Different color for Filter/Sort button

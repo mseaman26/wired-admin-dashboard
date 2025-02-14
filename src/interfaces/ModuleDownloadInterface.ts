@@ -8,8 +8,8 @@ interface PackageInterface {
 export interface ModuleDownloadInterface {
     id: number;
     download_date: number; 
-    latitude: number; 
-    longitude: number; 
+    latitude: string; 
+    longitude: string; 
     module?: ModuleInterface, 
     package?: PackageInterface
 
