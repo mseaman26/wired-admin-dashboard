@@ -10,6 +10,7 @@ import FilterPopover from '../components/FilterPopover';
 import { buildDownloadsQueryString } from '../utils/helperFunctions';
 import GoogleMapsComponent from '../components/GoogleMap';
 import { IdsAndNamesInterface } from '../interfaces/IdsAndNamesInterface';
+import { FilterFormInterface } from '../interfaces/FilterFormInterface';
 
 const AdminDashboard = () => {
 
@@ -21,6 +22,16 @@ const AdminDashboard = () => {
   const [filterPopoverOpen, setFilterPopoverOpen] = useState<boolean>(false);
   const [queryString, setQueryString] = useState<string>('');
   const [moduleAndPackageInfo, setModuleAndPackageInfo] = useState<IdsAndNamesInterface>({} as IdsAndNamesInterface);
+  const [formData, setFormData] = useState<FilterFormInterface>({
+    searchQuery: '',
+    searchBy: '',
+    sort: '',
+    startDate: null,
+    endDate: null,
+    latitude: '',
+    longitude: '',
+    distance: '',
+  });
 
   const handleViewAllDownloads = async () => {
     setHasQueriedDownloads(true);
@@ -80,6 +91,8 @@ const AdminDashboard = () => {
         setQueryString={setQueryString} 
         onClose={handlePopoverClose} 
         moduleAndPackageInfo={moduleAndPackageInfo}
+        formData={formData}
+        setFormData={setFormData}
       />}
 
       <div style={styles.buttonContainer}>
@@ -88,7 +101,7 @@ const AdminDashboard = () => {
           style={{ ...styles.button, ...styles.filterButton }} 
           onClick={() => setFilterPopoverOpen(!filterPopoverOpen)}
         >
-          Filter/Sort
+          Filter Search Results
         </button>
       </div>
 

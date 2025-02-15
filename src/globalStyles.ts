@@ -116,5 +116,8 @@ export const globalStyles = {
         borderTop: `3px solid ${whiteTheme}`,
         fontFamily: 'Arial, sans-serif',
     },
+    hr: {
+        border: '1px solid black',
+    }
 
 }

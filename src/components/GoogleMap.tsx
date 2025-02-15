@@ -79,11 +79,16 @@ const GoogleMapsComponent = ({ downloads }: GoogleMapsComponentProps) => {
                     <div>
                         <p>
                             <strong>Date:</strong>{" "}
-                            {new Date(selectedDownload.download_date).toLocaleDateString()}
+                            {new Date(selectedDownload.download_date * 1000).toLocaleDateString()}
                         </p>
-                        <p>
+                        {selectedDownload.module ? <p>
                             <strong>Module:</strong> {selectedDownload.module?.name}
                         </p>
+                        :
+                        <p>
+                            <strong>Package:</strong> {selectedDownload.package?.name}
+                        </p>
+                    }
                     </div>
                 </InfoWindow>
             )}
