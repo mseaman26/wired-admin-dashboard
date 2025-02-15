@@ -13,7 +13,7 @@ export default function DashboardHeader() {
 
 
     return (
-        <div style={styles.container}>
+        <div style={globalStyles.header}>
             <h1>Admin Dashboard</h1>
             <button style={styles.logoutButton} onClick={handleLogout}>Logout</button>
         </div>
@@ -27,7 +27,6 @@ const styles: {[key: string]: React.CSSProperties} = {
     color: globalStyles.colors.whiteTheme,
     padding: '20px',
     textAlign: 'center',
-    width: '100%',
   },
   logoutButton: {
     backgroundColor: globalStyles.colors.whiteTheme,
